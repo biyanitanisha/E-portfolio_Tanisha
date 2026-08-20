@@ -1,328 +1,653 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Tanisha Biyani — GIS &amp; Geoinformatics Portfolio</title>
-<meta name="description" content="Tanisha Biyani — M.Sc. Geoinformatics student specializing in GIS, Remote Sensing, and Web GIS development.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tanisha Biyani | Geoinformatics & Spatial Data Portfolio</title>
+  
+  <!-- Fonts & Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Leaflet CSS for Maps -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+
+  <style>
+    :root {
+      --bg-dark: #0f172a;
+      --bg-card: #1e293b;
+      --bg-card-hover: #334155;
+      --accent: #10b981;
+      --accent-glow: rgba(16, 185, 129, 0.2);
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --border: #334155;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      line-height: 1.6;
+    }
+
+    h1, h2, h3, h4, .brand {
+      font-family: 'Space Grotesk', sans-serif;
+    }
+
+    /* Header & Navigation */
+    header {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      background: rgba(15, 23, 42, 0.85);
+      backdrop-filter: blur(12px);
+      z-index: 1000;
+      border-bottom: 1px solid var(--border);
+    }
+
+    nav {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 1.2rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .brand {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--text-main);
+      text-decoration: none;
+    }
+
+    .brand span { color: var(--accent); }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-weight: 500;
+      transition: 0.3s;
+    }
+
+    .nav-links a:hover { color: var(--accent); }
+
+    /* Hero Section with Interactive Map */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      padding: 100px 2rem 4rem;
+      overflow: hidden;
+    }
+
+    #hero-map {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0.25;
+      z-index: 1;
+      filter: invert(100%) hue-rotate(180deg) brightness(95%) contrast(90%);
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      max-width: 1200px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    .location-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      padding: 0.4rem 1rem;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      color: var(--accent);
+      margin-bottom: 1.5rem;
+    }
+
+    .hero h1 {
+      font-size: 3.8rem;
+      line-height: 1.1;
+      margin-bottom: 1.5rem;
+    }
+
+    .hero h1 span {
+      background: linear-gradient(135deg, #10b981, #3b82f6);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero p {
+      max-width: 650px;
+      color: var(--text-muted);
+      font-size: 1.15rem;
+      margin-bottom: 2rem;
+    }
+
+    .cta-btns {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      padding: 0.8rem 1.8rem;
+      border-radius: 8px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: 0.3s;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: #000;
+    }
+
+    .btn-primary:hover {
+      box-shadow: 0 0 20px var(--accent-glow);
+      transform: translateY(-2px);
+    }
+
+    .btn-outline {
+      border: 1px solid var(--border);
+      color: var(--text-main);
+      background: rgba(30, 41, 59, 0.6);
+    }
+
+    .btn-outline:hover {
+      background: var(--bg-card);
+      border-color: var(--accent);
+    }
+
+    /* Sections Shared Styling */
+    section {
+      padding: 6rem 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .section-header {
+      margin-bottom: 3rem;
+    }
+
+    .section-tag {
+      color: var(--accent);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-size: 0.85rem;
+      margin-bottom: 0.5rem;
+      display: block;
+    }
+
+    .section-title {
+      font-size: 2.2rem;
+    }
+
+    /* About & Skills Grid */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+    }
+
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 2rem;
+    }
+
+    .timeline-item {
+      border-left: 2px solid var(--accent);
+      padding-left: 1.5rem;
+      margin-bottom: 1.5rem;
+      position: relative;
+    }
+
+    .timeline-item::before {
+      content: '';
+      position: absolute;
+      left: -7px;
+      top: 0;
+      width: 12px;
+      height: 12px;
+      background: var(--accent);
+      border-radius: 50%;
+    }
+
+    .skills-flex {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      margin-top: 1rem;
+    }
+
+    .skill-badge {
+      background: rgba(16, 185, 129, 0.1);
+      border: 1px solid var(--accent-glow);
+      color: var(--text-main);
+      padding: 0.4rem 0.9rem;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    /* Filterable Projects Section */
+    .project-filters {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 2.5rem;
+      flex-wrap: wrap;
+    }
+
+    .filter-btn {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      padding: 0.5rem 1.2rem;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 500;
+      transition: 0.3s;
+    }
+
+    .filter-btn.active, .filter-btn:hover {
+      background: var(--accent);
+      color: #000;
+      border-color: var(--accent);
+    }
+
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+      gap: 2rem;
+    }
+
+    .project-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      transition: transform 0.3s, border-color 0.3s;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .project-card:hover {
+      transform: translateY(-5px);
+      border-color: var(--accent);
+    }
+
+    .project-img {
+      width: 100%;
+      height: 200px;
+      background-color: #334155;
+      background-size: cover;
+      background-position: center;
+      position: relative;
+    }
+
+    .project-img-overlay {
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(15, 23, 42, 0.6);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .project-card:hover .project-img-overlay {
+      opacity: 1;
+    }
+
+    .project-info {
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;
+    }
+
+    .project-category {
+      font-size: 0.75rem;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 0.4rem;
+    }
+
+    .project-title {
+      font-size: 1.25rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .project-desc {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      margin-bottom: 1.25rem;
+      flex-grow: 1;
+    }
+
+    .project-tags {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      margin-bottom: 1rem;
+    }
+
+    .project-tags span {
+      background: #0f172a;
+      font-size: 0.75rem;
+      padding: 0.2rem 0.6rem;
+      border-radius: 4px;
+      color: var(--text-muted);
+    }
+
+    /* Field Exposure Section */
+    .field-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      align-items: center;
+    }
+
+    #field-map {
+      height: 400px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+    }
+
+    /* Contact Section */
+    .contact-card {
+      background: linear-gradient(135deg, #1e293b, #0f172a);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 3rem;
+      text-align: center;
+    }
+
+    .contact-links {
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      margin-top: 2rem;
+      flex-wrap: wrap;
+    }
+
+    footer {
+      border-top: 1px solid var(--border);
+      text-align: center;
+      padding: 2rem;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+
+    @media (max-width: 768px) {
+      .hero h1 { font-size: 2.5rem; }
+      .about-grid, .field-grid { grid-template-columns: 1fr; }
+      .nav-links { display: none; }
+    }
+  </style>
 </head>
 <body>
 
-<!-- ============ NAV ============ -->
-<header class="site-header">
-  <nav class="navbar">
-    <a href="#home" class="brand">TB<span class="brand-dot">.</span></a>
-    <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation" aria-expanded="false">
-      <span></span><span></span><span></span>
-    </button>
-    <ul class="nav-links" id="navLinks">
-      <li><a href="#home">Home</a></li>
-      <li><a href="#about">About</a></li>
-      <li><a href="#projects">Projects</a></li>
-      <li><a href="#field-exposure">Field Exposure</a></li>
-      <li><a href="#connect" class="nav-cta">Let's Connect</a></li>
-    </ul>
-  </nav>
-</header>
+  <!-- Navigation -->
+  <header>
+    <nav>
+      <a href="#home" class="brand">TB<span>.</span></a>
+      <ul class="nav-links">
+        <li><a href="#about">About</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#field-exposure">Field Exposure</a></li>
+        <li><a href="#connect">Connect</a></li>
+      </ul>
+    </nav>
+  </header>
 
-<main>
-
-<!-- ============ HERO ============ -->
-<section id="home" class="hero">
-  <div class="contour-bg" aria-hidden="true">
-    <svg viewBox="0 0 1200 800" preserveAspectRatio="none">
-      <path d="M-50,650 C150,600 300,700 500,640 C700,580 850,660 1050,600 C1150,570 1250,600 1300,580" />
-      <path d="M-50,560 C180,520 320,600 520,540 C720,480 880,560 1080,500 C1180,470 1260,500 1320,480" />
-      <path d="M-50,470 C200,430 340,510 540,450 C740,390 900,460 1100,410 C1200,385 1270,410 1330,390" />
-      <path d="M-50,380 C220,340 360,410 560,360 C760,310 920,370 1120,330 C1220,310 1280,330 1340,310" />
-      <path d="M-50,290 C240,260 380,320 580,280 C780,240 940,290 1140,260" />
-    </svg>
-  </div>
-
-  <div class="hero-inner">
-    <p class="eyebrow"><span class="crosshair"></span> N18.52° E73.85° — Pune, India</p>
-    <h1>Data. Location.<br>Insight.</h1>
-    <p class="hero-lede">I'm Tanisha Biyani, from Bhilwara, Rajasthan, diving deep into the world of geospatial technology as a postgraduate student in M.Sc. Geoinformatics. My academic focus lies in leveraging Geographic Information Systems and advanced Remote Sensing techniques to solve real-world spatial challenges.</p>
-    <p class="hero-sub">My path from a B.A. in Geography to an M.Sc. in Geoinformatics reflects an aim to bridge the gap between theoretical spatial concepts and practical application — using modern geospatial technologies to visualise trends, forecast changes, and drive effective decision-making.</p>
-    <div class="hero-actions">
-      <a href="#projects" class="btn btn-primary">View Projects</a>
-      <a href="#connect" class="btn btn-outline">Get in Touch</a>
+  <!-- Hero Section -->
+  <section id="home" class="hero">
+    <div id="hero-map"></div>
+    <div class="hero-content">
+      <div class="location-badge">
+        <i class="fa-solid fa-location-dot"></i> N18.52° E73.85° — Pune, India
+      </div>
+      <h1>Data. Location.<br><span>Insight.</span></h1>
+      <p>I'm Tanisha Biyani, a Postgraduate Geoinformatics Student passionate about leveraging Remote Sensing, GIS modeling, and Web GIS applications to solve complex spatial dynamics.</p>
+      <div class="cta-btns">
+        <a href="#projects" class="btn btn-primary"><i class="fa-solid fa-layer-group"></i> View Projects</a>
+        <a href="#connect" class="btn btn-outline"><i class="fa-solid fa-envelope"></i> Get in Touch</a>
+        <a href="#" class="btn btn-outline" download><i class="fa-solid fa-file-pdf"></i> Resume</a>
+      </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- ============ ABOUT ============ -->
-<section id="about" class="section">
-  <div class="container">
-    <p class="eyebrow"><span class="crosshair"></span> About</p>
-    <h2 class="section-title">Academic Background</h2>
-
-    <div class="timeline">
-      <div class="timeline-item">
-        <span class="timeline-year">2022 – 2025</span>
-        <div>
-          <h3>B.A. in Geography (Hons.)</h3>
-          <p>Maharaja Sayajirao University of Baroda, Vadodara, Gujarat</p>
-        </div>
-      </div>
-      <div class="timeline-item">
-        <span class="timeline-year">2025 – Present</span>
-        <div>
-          <h3>M.Sc. in Geoinformatics</h3>
-          <p>Bharati Vidyapeeth Institute of Environment Education and Research (BVIEER), Pune</p>
-        </div>
-      </div>
+  <!-- About & Skills Section -->
+  <section id="about">
+    <div class="section-header">
+      <span class="section-tag">Background</span>
+      <h2 class="section-title">Academic & Technical Profile</h2>
     </div>
 
     <div class="about-grid">
-      <div class="about-col">
-        <h3 class="about-col-title">Technical Skills</h3>
-        <ul class="check-list">
-          <li>Proficient in ArcGIS Pro/Online, QGIS, Google Earth Engine (GEE), and Google Colab</li>
-          <li>Skilled in flood simulation, 3D modeling, LULC classification, change detection, NDVI, and LST analysis</li>
-          <li>Competent in Python, HTML5, and JavaScript for geospatial automation and Web GIS development</li>
-          <li>Experienced with GPS data integration, Epicollect5, and ArcGIS Survey123</li>
-          <li>Efficient at technical project leadership, workflow management, and geospatial data maintenance</li>
-        </ul>
+      <div class="card">
+        <h3>Education</h3>
+        <br>
+        <div class="timeline-item">
+          <h4>M.Sc. in Geoinformatics</h4>
+          <p style="color:var(--accent)">2025 – Present</p>
+          <p style="color:var(--text-muted)">Bharati Vidyapeeth Institute of Environment Education and Research (BVIEER), Pune</p>
+        </div>
+        <div class="timeline-item">
+          <h4>B.A. in Geography (Hons.)</h4>
+          <p style="color:var(--accent)">2022 – 2025</p>
+          <p style="color:var(--text-muted)">Maharaja Sayajirao University of Baroda, Vadodara, Gujarat</p>
+        </div>
       </div>
-      <div class="about-col">
-        <h3 class="about-col-title">Key Interests</h3>
-        <ul class="check-list">
-          <li>Hydrological modeling and watershed management for sustainable water resources</li>
-          <li>Urban sustainability and the socio-economic impacts of green spaces</li>
-          <li>Web GIS development and interactive, user-friendly portal applications</li>
-          <li>Earth observation and climate monitoring using multi-temporal satellite data</li>
-        </ul>
-      </div>
-    </div>
 
-    <div class="tag-row">
-      <span class="tag">ArcGIS Pro</span>
-      <span class="tag">ArcGIS Online</span>
-      <span class="tag">QGIS</span>
-      <span class="tag">Google Earth Engine</span>
-      <span class="tag">Python</span>
-      <span class="tag">HTML5 / JS</span>
-      <span class="tag">Epicollect5</span>
-      <span class="tag">Survey123</span>
-      <span class="tag">Remote Sensing</span>
-      <span class="tag">LULC Classification</span>
-    </div>
-  </div>
-</section>
-
-<!-- ============ PROJECTS ============ -->
-<section id="projects" class="section section-alt">
-  <div class="container">
-    <p class="eyebrow"><span class="crosshair"></span> Selected Work</p>
-    <h2 class="section-title">Projects</h2>
-    <p class="section-intro">A working index of geospatial analysis, dashboards, and modelling — organized by category.</p>
-
-    <!-- Featured -->
-    <div class="subsection">
-      <h3 class="subsection-title">Featured</h3>
-      <div class="card-grid">
-        <article class="card">
-          <span class="card-eyebrow">GEE Timelapse</span>
-          <h4>A Multi-Temporal NDVI Animation of India</h4>
-          <p>Visualizes the seasonal "heartbeat" of India through NDVI over a continuous time series, capturing the Southwest Monsoon's greening of the Western Ghats and Indo-Gangetic Plain. Serves as a geoinformatics tool for monitoring agricultural phenology and drought susceptibility.</p>
-          <div class="card-tags"><span class="pill">Google Earth Engine</span><span class="pill">NDVI</span><span class="pill">Time Series</span></div>
-        </article>
-        <article class="card">
-          <span class="card-eyebrow">3D Visualization</span>
-          <h4>3D Terrain Analysis of ESA WorldCover</h4>
-          <p>Integrates the ESA WorldCover 10m dataset with DEMs to project land cover classes onto 3D terrain, highlighting the relationship between topography and human activity for urban morphology assessment.</p>
-          <div class="card-tags"><span class="pill">Google Earth Engine</span><span class="pill">ESA WorldCover</span><span class="pill">DEM</span></div>
-        </article>
-        <article class="card">
-          <span class="card-eyebrow">Hydrology</span>
-          <h4>Spatiotemporal Evolution of the Chambal River</h4>
-          <p>A multi-decadal satellite imagery stack showing the Chambal River's lateral migration, seasonal reservoir fluctuations, and the expansion of the surrounding Chambal Ravines — a record of bank erosion and sediment transport.</p>
-          <div class="card-tags"><span class="pill">Google Earth Engine</span><span class="pill">River Morphology</span></div>
-        </article>
+      <div class="card">
+        <h3>Technical Toolkit</h3>
+        <br>
+        <p style="color:var(--text-muted); font-size:0.9rem">GIS Software & Platforms</p>
+        <div class="skills-flex">
+          <span class="skill-badge"><i class="fa-solid fa-map"></i> ArcGIS Pro</span>
+          <span class="skill-badge"><i class="fa-solid fa-globe"></i> ArcGIS Online</span>
+          <span class="skill-badge"><i class="fa-solid fa-layer-group"></i> QGIS</span>
+          <span class="skill-badge"><i class="fa-solid fa-satellite"></i> Google Earth Engine</span>
+        </div>
+        <br>
+        <p style="color:var(--text-muted); font-size:0.9rem">Development & Field Survey</p>
+        <div class="skills-flex">
+          <span class="skill-badge"><i class="fa-brands fa-python"></i> Python</span>
+          <span class="skill-badge"><i class="fa-brands fa-html5"></i> HTML5/JS</span>
+          <span class="skill-badge"><i class="fa-solid fa-mobile-screen"></i> Epicollect5</span>
+          <span class="skill-badge"><i class="fa-solid fa-clipboard-question"></i> Survey123</span>
+        </div>
       </div>
     </div>
+  </section>
 
-    <!-- Indices Mapping -->
-    <div class="subsection">
-      <h3 class="subsection-title">Indices Mapping — Techniques in Digital Image Processing</h3>
-      <div class="card-grid">
-        <article class="card">
-          <span class="card-eyebrow">NDVI · Bangalore, 1991–2026</span>
-          <h4>Normalised Difference Vegetation Index</h4>
-          <p>Compares vegetation cover in Bangalore between 1991 and 2026, showing a decline in dense vegetation and a rise in sparse/built-up areas — reflecting rapid urbanization and green-cover loss.</p>
-          <div class="card-tags"><span class="pill">NDVI</span><span class="pill">Urban Growth</span></div>
-        </article>
-        <article class="card">
-          <span class="card-eyebrow">NDWI · Bangalore, 1991–2026</span>
-          <h4>Normalised Difference Water Index</h4>
-          <p>Tracks reduction in surface water extent across Bangalore, with many lakes shrinking or disappearing due to urban expansion — pointing to increasing water stress.</p>
-          <div class="card-tags"><span class="pill">NDWI</span><span class="pill">Water Resources</span></div>
-        </article>
-        <article class="card">
-          <span class="card-eyebrow">SAVI · Bangalore, 1991–2026</span>
-          <h4>Soil Adjusted Vegetation Index</h4>
-          <p>Accounts for soil brightness to give a more accurate read on vegetation in sparsely-covered areas, revealing a decline in healthy vegetation and growth in degraded/bare land.</p>
-          <div class="card-tags"><span class="pill">SAVI</span><span class="pill">Land Degradation</span></div>
-        </article>
-        <article class="card">
-          <span class="card-eyebrow">Classification · Bangalore</span>
-          <h4>Unsupervised LULC Classification</h4>
-          <p>Categorized the Bangalore landscape into six classes — built-up, bare soil/fallow, agriculture, algal bloom, forest, and waterbodies — to establish a baseline for land-change dynamics.</p>
-          <div class="card-tags"><span class="pill">LULC</span><span class="pill">Unsupervised Classification</span></div>
-        </article>
-      </div>
+  <!-- Filterable Projects Section -->
+  <section id="projects">
+    <div class="section-header">
+      <span class="section-tag">Portfolio</span>
+      <h2 class="section-title">Featured Geospatial Projects</h2>
     </div>
 
-    <!-- Dashboards and Visualization -->
-    <div class="subsection">
-      <h3 class="subsection-title">Dashboards &amp; Visualization</h3>
-      <div class="card-grid">
-        <article class="card">
-          <span class="card-eyebrow">ArcGIS Dashboard</span>
-          <h4>The Smart Campus Overview</h4>
-          <p>A digital dashboard for the BVDU Dhankawadi Campus integrating high-resolution spatial data with tabular attributes, streamlining infrastructure management and student navigation.</p>
-          <div class="card-tags"><span class="pill">ArcGIS Dashboards</span><span class="pill">Campus GIS</span></div>
-          <a href="https://www.arcgis.com/apps/dashboards/b9347ec434f844518c7d19290219d5a4" target="_blank" rel="noopener" class="card-link">View Dashboard →</a>
-        </article>
-        <article class="card">
-          <span class="card-eyebrow">Choropleth Map</span>
-          <h4>Spatiotemporal Analysis of COVID-19 Incidence in India</h4>
-          <p>Visualises COVID-19 intensity across India in five levels, from "Very Low" to "Very High," highlighting clusters in central and western regions, particularly Maharashtra.</p>
-          <div class="card-tags"><span class="pill">Choropleth</span><span class="pill">Public Health GIS</span></div>
-        </article>
+    <div class="project-filters">
+      <button class="filter-btn active" onclick="filterProjects('all')">All Works</button>
+      <button class="filter-btn" onclick="filterProjects('remote-sensing')">Remote Sensing & GEE</button>
+      <button class="filter-btn" onclick="filterProjects('dashboards')">Dashboards & Web GIS</button>
+      <button class="filter-btn" onclick="filterProjects('modelling')">Geospatial Modelling</button>
+    </div>
 
-        <article class="card">
-          <span class="card-eyebrow">ArcGIS Dashboard · Bhilwara</span>
-          <h4>Urban Waste Dumpsites</h4>
-          <p>A spatial overview of urban waste dump sites in Bhilwara city, Rajasthan, mapping dump-yard locations alongside nearby facilities and waste types to support better waste management and urban planning.</p>
-          <div class="card-tags"><span class="pill">Waste Management</span><span class="pill">Bhilwara</span></div>
-          <a href="https://arcg.is/1PWCHi4" target="_blank" rel="noopener" class="card-link">View Dashboard →</a>
-        </article>
-        <article class="card">
-          <span class="card-eyebrow">Capstone · BVDU Campus</span>
-          <h4>Spatial Dashboard — Campus Tree Survey</h4>
-          <p>Capstone project mapping tree data collected across the BVDU campus, with spatial location, species name, girth, height, and health condition for every tree surveyed.</p>
-          <div class="card-tags"><span class="pill">Tree Survey</span><span class="pill">Field Data</span></div>
-        </article>
-        <article class="card">
-          <span class="card-eyebrow">Web Development</span>
-          <h4>Website Creation Using HTML</h4>
-          <p>Standalone HTML web pages built to present spatial and situational data in a lightweight, accessible format.</p>
-          <div class="card-tags"><span class="pill">HTML5</span><span class="pill">Web GIS</span></div>
-          <div class="card-link-group">
-            <a href="https://biyanitanisha.github.io/Website/DisasterTrack.html" target="_blank" rel="noopener" class="card-link">Disaster Tracking →</a>
-            <a href="https://biyanitanisha.github.io/Website/Hostels.html" target="_blank" rel="noopener" class="card-link">Hostels →</a>
+    <div class="projects-grid">
+      <!-- Project Card 1 -->
+      <div class="project-card" data-category="remote-sensing">
+        <div class="project-img" style="background-image: url('https://images.unsplash.com/photo-1508739773434-c26b3d09e071?auto=format&fit=crop&w=600&q=80');">
+          <div class="project-img-overlay">
+            <span class="btn btn-primary btn-sm">Preview Map</span>
           </div>
-        </article>
+        </div>
+        <div class="project-info">
+          <span class="project-category">GEE Time Series</span>
+          <h3 class="project-title">Multi-Temporal NDVI Animation of India</h3>
+          <p class="project-desc">Visualizes the seasonal greening of India through NDVI time series, capturing monsoon trends across the Western Ghats and Indo-Gangetic Plain.</p>
+          <div class="project-tags">
+            <span>Google Earth Engine</span><span>NDVI</span><span>Python</span>
+          </div>
+        </div>
+      </div>
 
-        <article class="card">
-          <span class="card-eyebrow">ArcGIS StoryMaps</span>
-          <h4>Story Map — Jaipur's Historic Urban Core</h4>
-          <p>Combines narrative text with custom web maps and embedded spatial analysis from ArcGIS Pro, translating the planning challenges of a historic urban core into an accessible, scroll-driven digital narrative.</p>
-          <div class="card-tags"><span class="pill">StoryMaps</span><span class="pill">Narrative GIS</span></div>
-        </article>
+      <!-- Project Card 2 -->
+      <div class="project-card" data-category="dashboards">
+        <div class="project-img" style="background-image: url('https://images.unsplash.com/photo-1526778548025-fa2f459cd5c1?auto=format&fit=crop&w=600&q=80');">
+          <div class="project-img-overlay">
+            <a href="https://www.arcgis.com/apps/dashboards/b9347ec434f844518c7d19290219d5a4" target="_blank" class="btn btn-primary btn-sm">Launch Dashboard ↗</a>
+          </div>
+        </div>
+        <div class="project-info">
+          <span class="project-category">ArcGIS Dashboard</span>
+          <h3 class="project-title">Smart Campus Overview — BVDU</h3>
+          <p class="project-desc">A digital dashboard integrating spatial data with attribute management to streamline campus navigation and facility management.</p>
+          <div class="project-tags">
+            <span>ArcGIS Dashboard</span><span>Campus GIS</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Project Card 3 -->
+      <div class="project-card" data-category="modelling">
+        <div class="project-img" style="background-image: url('https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=600&q=80');">
+          <div class="project-img-overlay">
+            <span class="btn btn-primary btn-sm">View Analysis</span>
+          </div>
+        </div>
+        <div class="project-info">
+          <span class="project-category">Hydrology</span>
+          <h3 class="project-title">Automated Watershed Extraction</h3>
+          <p class="project-desc">Terrain analysis converting DEM elevation data into hydrological insights for Jaipur, identifying watershed boundaries and flow direction.</p>
+          <div class="project-tags">
+            <span>DEM Analysis</span><span>Hydrology</span><span>QGIS</span>
+          </div>
+        </div>
       </div>
     </div>
+  </section>
 
-    <!-- Geospatial Modelling -->
-    <div class="subsection">
-      <h3 class="subsection-title">Geospatial Modelling</h3>
-      <div class="card-grid">
-        <article class="card">
-          <span class="card-eyebrow">Hydrological Modelling · Jaipur</span>
-          <h4>Automated Watershed Extraction</h4>
-          <p>Terrain analysis transforming elevation data into hydrological insight for Jaipur, Rajasthan — integrating aspect, contour, and hillshade analyses to delineate watershed boundaries for environmental monitoring and resource allocation.</p>
-          <div class="card-tags"><span class="pill">Watershed Delineation</span><span class="pill">DEM Analysis</span></div>
-        </article>
-        <article class="card">
-          <span class="card-eyebrow">Network Analysis · Pune</span>
-          <h4>The "Public Health &amp; Planning" Approach</h4>
-          <p>A multi-criteria network analysis of Pune's road network evaluating emergency medical service accessibility, accounting for road constraints like construction and traffic bottlenecks in ambulance routing and hospital catchment zones.</p>
-          <div class="card-tags"><span class="pill">Network Analysis</span><span class="pill">Healthcare Access</span></div>
-        </article>
-      </div>
+  <!-- Field Exposure Section -->
+  <section id="field-exposure">
+    <div class="section-header">
+      <span class="section-tag">Ground Work</span>
+      <h2 class="section-title">Fieldwork & Survey Sites</h2>
     </div>
-  </div>
-</section>
-
-<!-- ============ FIELD EXPOSURE ============ -->
-<section id="field-exposure" class="section">
-  <div class="container">
-    <p class="eyebrow"><span class="crosshair"></span> On the Ground</p>
-    <h2 class="section-title">Field Exposure</h2>
-    <p class="section-intro">Field surveys connecting spatial data collection with GIS and remote sensing analysis.</p>
 
     <div class="field-grid">
-      <article class="field-card">
-        <h3>Pashan Lake</h3>
-        <p>Key to understanding the integration of field data with GIS and remote sensing for environmental monitoring — spatially analyzing the impact of invasive species like water hyacinth on lake biodiversity. Sharpened skills in data interpretation and temporal mapping across 2016, 2021, and 2025 surveys.</p>
-        <div class="card-tags"><span class="pill">GPS Essentials</span><span class="pill">Epicollect5</span><span class="pill">Invasive Species</span></div>
-      </article>
-      <article class="field-card">
-        <h3>Mayureshwar Supe</h3>
-        <p>Hands-on vegetation sampling in dry scrubland using line and belt transects, calculating species density and abundance. Performed ground-truthing — relating field data directly to NDVI values from remote sensing — across multiple survey grids.</p>
-        <div class="card-tags"><span class="pill">Transect Sampling</span><span class="pill">NDVI Ground-Truthing</span></div>
-      </article>
-      <article class="field-card">
-        <h3>Mulshi</h3>
-        <p>First-semester field visit combining line transects for vegetation survey with densometer readings for canopy cover. Used GPS Essentials and Epicollect5 for geospatial recording, extending into ecosystem-services data collection.</p>
-        <div class="card-tags"><span class="pill">Canopy Cover</span><span class="pill">Ecosystem Services</span></div>
-      </article>
+      <div id="field-map"></div>
+      <div>
+        <div class="card" style="margin-bottom: 1rem;">
+          <h4>Pashan Lake Survey</h4>
+          <p style="color:var(--text-muted); font-size:0.9rem">Spatially mapped the invasive water hyacinth footprint to evaluate ecological impacts across multi-year field assessments.</p>
+        </div>
+        <div class="card" style="margin-bottom: 1rem;">
+          <h4>Mayureshwar Supe</h4>
+          <p style="color:var(--text-muted); font-size:0.9rem">Executed ground-truthing and transect vegetation sampling to validate satellite-derived NDVI values in dry scrublands.</p>
+        </div>
+        <div class="card">
+          <h4>Mulshi Canopy Survey</h4>
+          <p style="color:var(--text-muted); font-size:0.9rem">Recorded densometer readings and collected spatial data using Epicollect5 and GPS Essentials for ecosystem analysis.</p>
+        </div>
+      </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- ============ CONNECT ============ -->
-<section id="connect" class="section section-dark">
-  <div class="container connect-container">
-    <p class="eyebrow eyebrow-light"><span class="crosshair"></span> Let's Connect</p>
-    <h2 class="section-title connect-title">Let's talk maps, models, and monsoons.</h2>
-    <p class="connect-sub">Open to collaborations, research opportunities, and conversations about geospatial technology.</p>
-    <div class="connect-links">
-      <a href="mailto:biyanitanisha9@gmail.com" class="connect-link">
-        <span class="connect-label">Email</span>
-        <span class="connect-value">biyanitanisha9@gmail.com</span>
-      </a>
-      <a href="http://linkedin.com/in/tanisha-biyani-782a16312" target="_blank" rel="noopener" class="connect-link">
-        <span class="connect-label">LinkedIn</span>
-        <span class="connect-value">/in/tanisha-biyani-782a16312</span>
-      </a>
-      <a href="https://github.com/biyanitanisha" target="_blank" rel="noopener" class="connect-link">
-        <span class="connect-label">GitHub</span>
-        <span class="connect-value">@biyanitanisha</span>
-      </a>
+  <!-- Connect Section -->
+  <section id="connect">
+    <div class="contact-card">
+      <span class="section-tag">Let's Connect</span>
+      <h2>Let's talk maps, models, and spatial data.</h2>
+      <p style="color:var(--text-muted); margin-top:0.5rem;">Open to collaborations, internships, and research projects.</p>
+      <div class="contact-links">
+        <a href="mailto:biyanitanisha9@gmail.com" class="btn btn-primary"><i class="fa-solid fa-envelope"></i> Email Me</a>
+        <a href="http://linkedin.com/in/tanisha-biyani-782a16312" target="_blank" class="btn btn-outline"><i class="fa-brands fa-linkedin"></i> LinkedIn</a>
+        <a href="https://github.com/biyanitanisha" target="_blank" class="btn btn-outline"><i class="fa-brands fa-github"></i> GitHub</a>
+      </div>
     </div>
-  </div>
-</section>
+  </section>
 
-</main>
+  <!-- Footer -->
+  <footer>
+    <p>© Tanisha Biyani · Built with GIS, web design, & coffee.</p>
+  </footer>
 
-<footer class="site-footer">
-  <div class="container footer-inner">
-    <span>© <span id="year"></span> Tanisha Biyani</span>
-    <span>Built with GIS, coffee, and QGIS crashes.</span>
-  </div>
-</footer>
-
-<script>
-  document.getElementById('year').textContent = new Date().getFullYear();
-  const navToggle = document.getElementById('navToggle');
-  const navLinks = document.getElementById('navLinks');
-  navToggle.addEventListener('click', () => {
-    const isOpen = navLinks.classList.toggle('open');
-    navToggle.setAttribute('aria-expanded', isOpen);
-  });
-  navLinks.querySelectorAll('a').forEach(link => {
-    link.addEventListener('click', () => {
-      navLinks.classList.remove('open');
-      navToggle.setAttribute('aria-expanded', 'false');
+  <!-- Leaflet Map JS Script -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script>
+    // Hero Background Map (Pune Centered)
+    const heroMap = L.map('hero-map', {
+      center: [18.5204, 73.8567],
+      zoom: 12,
+      zoomControl: false,
+      dragging: false,
+      scrollWheelZoom: false
     });
-  });
-</script>
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(heroMap);
+
+    // Field Survey Map
+    const fieldMap = L.map('field-map').setView([18.5204, 73.8567], 9);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(fieldMap);
+
+    // Add Field Markers
+    L.marker([18.5336, 73.7932]).addTo(fieldMap).bindPopup('<b>Pashan Lake</b><br>Invasive Species Mapping');
+    L.marker([18.3370, 74.3686]).addTo(fieldMap).bindPopup('<b>Mayureshwar Supe</b><br>NDVI Ground Truthing');
+    L.marker([18.5022, 73.5089]).addTo(fieldMap).bindPopup('<b>Mulshi</b><br>Canopy Cover Analysis');
+
+    // Interactive Filter Logic
+    function filterProjects(category) {
+      const buttons = document.querySelectorAll('.filter-btn');
+      buttons.forEach(btn => btn.classList.remove('active'));
+      event.target.classList.add('active');
+
+      const cards = document.querySelectorAll('.project-card');
+      cards.forEach(card => {
+        if (category === 'all' || card.dataset.category === category) {
+          card.style.display = 'flex';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    }
+  </script>
 </body>
 </html>
