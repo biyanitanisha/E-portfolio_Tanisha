@@ -2,8 +2,7 @@
 
 A e-portfolio built with plain HTML, CSS, and a little JavaScript, hosted on GitHub Pages.
 
-**Live site:** `https://biyanitanisha.github.io/<repo-name>/` — replace `<repo-name>` with this repository's actual name once published.
-
+**Live site:** `https://biyanitanisha.github.io/E-portfolio_Tanisha/'
 ## Overview
 
 This site introduces my work as an M.Sc. Geoinformatics student, covering:
