@@ -123,7 +123,8 @@
   .card:hover{box-shadow:0 8px 24px rgba(10,26,47,0.10);transform:translateY(-2px);}
   .card .thumb{height:118px;overflow:hidden;background:#f4f1e8;}
   .card .thumb img{width:100%;height:100%;object-fit:cover;}
-  .placeholder-slot{width:100%;height:100%;display:flex;align-items:center;justify-content:center;border:1px dashed #cfc7b6;background:repeating-linear-gradient(135deg,#fbf9f4,#fbf9f4 8px,#f2ede2 8px,#f2ede2 16px);color:#9a9080;font-family:'IBM Plex Mono';font-size:10.5px;letter-spacing:.03em;}
+  .card .thumb:has(.placeholder-slot){height:auto;padding:14px 16px;background:var(--panel);display:flex;justify-content:flex-start;}
+  .placeholder-slot{width:56px;height:56px;flex-shrink:0;display:flex;align-items:center;justify-content:center;border:1px dashed #cfc7b6;border-radius:var(--radius);background:repeating-linear-gradient(135deg,#fbf9f4,#fbf9f4 6px,#f2ede2 6px,#f2ede2 12px);color:#9a9080;font-family:'IBM Plex Mono';font-size:8px;letter-spacing:.02em;text-align:center;line-height:1.3;}
   .card-body{padding:14px 16px 16px;flex:1;display:flex;flex-direction:column;}
   .card-body h4{font-size:14.5px;margin-bottom:7px;line-height:1.3;}
   .card-body p{color:var(--slate);font-size:13px;margin:0 0 12px;flex:1;}
@@ -270,7 +271,7 @@
         </div>
         <div class="skill-group"><h4>Analysis &amp; modelling</h4>
           <div class="chip-row">
-            <span class="chip c-green">Flood simulation</span><span class="chip c-green">3D modelling</span><span class="chip c-green">LULC classification</span><span class="chip c-green">Change detection</span><span class="chip c-green">NDVI / spectral indices</span><span class="chip c-green">LST analysis</span>
+            <span class="chip c-green">Flood simulation</span><span class="chip c-green">LULC classification</span><span class="chip c-green">Change detection</span><span class="chip c-green">NDVI / spectral indices</span><span class="chip c-green">LST analysis</span>
           </div>
         </div>
         <div class="skill-group"><h4>Field data collection</h4>
@@ -361,25 +362,18 @@
         <div class="card accent-green">
           <div class="thumb"><img src="https://lh3.googleusercontent.com/sitesv/AG8ngQWIDhbuKXsxSb_CT2V233QbQbbsjg589vAdZ5OOIOd0nQIH6sLUkXkUYH2YloKCNmrK5aliZYWEshEDQNeeJpnFGzFoi0Gb3890sJ_kGykcm5Qr1kQHz3_zQ5Dixcodlm-zmyHiDpj0Ys4jEVnvTpA5oE-xnEg0DPsh_08qPSyZeAnW4Tr9qDwr9D9X_czaw3PIeFBNXnxyainqUiC0wGYscj2XZqMznIOKsm-DNnQ=w1280" alt="Unsupervised LULC classification map, Bangalore"></div>
           <div class="card-body">
-            <h4>Unsupervised LULC — Bangalore</h4>
+            <h4>Unsupervised LULC — Hyderabad</h4>
             <p>Six-class classification (built-up, bare soil, agriculture, algal bloom, forest, waterbodies) from multi-spectral imagery, built as a baseline for tracking land-use change.</p>
             <a class="card-link" href="https://biyanitanisha.github.io/LULC-Land-Use-Land-Cover-/" target="_blank" rel="noopener">View project<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17 17 7M9 7h8v8"/></svg></a>
           </div>
         </div>
-        <div class="card accent-green">
-          <div class="thumb"><div class="placeholder-slot">ADD IMAGE</div></div>
-          <div class="card-body">
-            <h4>Unsupervised LULC — Hyderabad</h4>
-            <p>The same unsupervised classification workflow applied to Hyderabad, run alongside the Bangalore study to compare land-cover patterns across the two cities.</p>
-            <a class="card-link" href="https://biyanitanisha.github.io/LULC-Land-Use-Land-Cover-/hyderabad_lulc.html" target="_blank" rel="noopener">View project<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17 17 7M9 7h8v8"/></svg></a>
-          </div>
-        </div>
+        
         <div class="card accent-pink">
           <div class="thumb"><div class="placeholder-slot">ADD IMAGE</div></div>
           <div class="card-body">
             <h4>Pink City Blueprint — Jaipur</h4>
             <p>An ArcGIS StoryMap mapping the layout of Jaipur's historic Pink City, combining narrative text with interactive web maps and spatial analysis.</p>
-            <span class="no-link">ArcGIS StoryMaps</span>
+            <a class="card-link" href="https://storymaps.arcgis.com/stories/4d350c583a6441e29d47ec476caade25" target="_blank" rel="noopener">View project<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17 17 7M9 7h8v8"/></svg></a>
           </div>
         </div>
       </div>
@@ -406,21 +400,21 @@
       <img src="https://lh3.googleusercontent.com/sitesv/AG8ngQV0cu2LpxWldbOCYFDo9CsZJ0n6WhwCX53b2iaHS-p5twOl2mLa0R2w9SPO7wJNtBd_O9wnQtxdjsvDTBj-FskqaMAvSx72pW3PM7albuq0F0YC7K5l7XzAR98dmlL2sZhRH1SyoSj28J__yeGEF6fI6alujNYstALupSpmN5Ze2PAOi80z5I2H2vYTv7tV4b_2wXN5E5_vhNOqKhH2aqnSiXoWztsUOpzCAmFap60=w1280" alt="Pashan Lake field survey">
       <div>
         <h4>Pashan Lake</h4>
-        <p>Mapped water hyacinth spread and its impact on lake biodiversity using GPS Essentials and Epicollect5.</p>
+        <p>The Pashan Lake survey was key to understanding the integration of field data with GIS and remote sensing for environmental monitoring. I learned firsthand how to spatially analyze the impact of invasive species, such as water hyacinth, on lake biodiversity. The project sharpened my skills in data interpretation and temporal mapping, confirming that geospatial monitoring is vital for informing sustainable management and conservation strategies for vulnerable water ecosystems. </p>
       </div>
     </div>
     <div class="field-panel" id="field-mayureshwar">
       <img src="https://lh3.googleusercontent.com/sitesv/AG8ngQWrzxxYE5Mdy8SCMwX7oTIVHlZPeU21wYx52plxNkrx9rMpRvNcInnSNcaP-fNa5so2fXAekNtAos2bhiy6GuwPekwOcH3-31wFcduIquPkXRSU8ZjJRO3XsBryFrtQOEzmcT_CSZTPbtjX2FV1PczNP6Xw1Q0xRXqYwIv0jz6kfu5oGE_-wP9-hDyfEKXOM4dCWq2RZxertujwLWzMZJisQd8UiZdj0BS3Mt5q=w1280" alt="Mayureshwar Supe vegetation sampling">
       <div>
         <h4>Mayureshwar Supe</h4>
-        <p>Vegetation sampling via line and belt transects, ground-truthed against NDVI values for accuracy.</p>
+        <p>In Mayureshwar Supe, which was a dry scrubland, I achieved hands-on expertise in vegetation sampling using line and belt transects, mastering the calculation of species density and abundance. A key outcome was understanding and performing ground truthing—relating field data directly to NDVI values from remote sensing—to ensure accurate vegetation analysis. The exercise significantly improved my skills in data collection, spatial interpretation, and integrating field ecology with satellite observations for effective ecological monitoring.</p>
       </div>
     </div>
     <div class="field-panel" id="field-mulshi">
       <img src="https://lh3.googleusercontent.com/sitesv/AG8ngQWfnIIZ_G6qwiW1WVk1zTVcHGCQzq8FxHq2NaATP4piltYnhavDiPtkDp9F-8D8Xigg_JFzuFyCfP12_nJwJ4Pmvd6HntS9L_TqaZ86iTAyyMvavpIzoEocVDCAb9RP9BHEJiCgOE8maiQRrCETq5BKWvLWW4AtCwMUxilj75QUDummEv9UHKzanVHNFgMyDR7qXG7IjTReNNP4tnuRPEO0k3Z-V--B8kJcbj43=w1280" alt="Mulshi ecological field survey">
       <div>
         <h4>Mulshi</h4>
-        <p>Canopy cover and ecosystem-service data collection linking ecological observation to socio-economic value.</p>
+        <p>Field visit to Mulshi was a comprehensive exercise in ecological data collection and analysis. The practical work involved establishing line transects to survey vegetation, and using a densometer to quantify canopy cover. Furthermore, I utilised modern mobile technology, including GPS Essentials for accurate geospatial recording of locations and the Epicollect forms platform for standardised digital data entry. The combination of these techniques allowed for robust ecological sampling, which was supplemented by the crucial task of collecting data on ecosystem services provided by the Mulshi environment, thus connecting the biological observations to their broader socio-economic and environmental value. </p>
       </div>
     </div>
 
