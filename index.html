@@ -159,6 +159,15 @@
   .survey-card h4{font-size:15px;margin-bottom:4px;}
   .survey-card p{font-size:13px;color:var(--slate);margin:0 0 8px;}
   .survey-card .card-link{color:var(--amber);}
+  .carousel{position:relative;border-radius:var(--radius);overflow:hidden;border:1px solid var(--line);background:#eee;aspect-ratio:4/3;}
+  .carousel .slide{display:none;width:100%;height:100%;object-fit:cover;}
+  .carousel .slide.active{display:block;}
+  .car-btn{position:absolute;top:50%;transform:translateY(-50%);background:rgba(11,32,39,0.55);color:#fff;border:0;width:30px;height:30px;border-radius:50%;cursor:pointer;font-size:18px;line-height:1;display:flex;align-items:center;justify-content:center;}
+  .car-btn.prev{left:8px;}
+  .car-btn.next{right:8px;}
+  .car-dots{position:absolute;bottom:8px;left:0;right:0;display:flex;justify-content:center;gap:5px;}
+  .car-dots span{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,0.55);cursor:pointer;}
+  .car-dots span.active{background:#fff;}
 
   /* ---------- CONTACT ---------- */
   .contact-sec{background:var(--navy);color:#eaf1f6;position:relative;overflow:hidden;}
@@ -428,22 +437,48 @@
     </div>
 
     <div class="field-panel active" id="field-pashan">
-      <img src="https://lh3.googleusercontent.com/sitesv/AG8ngQV0cu2LpxWldbOCYFDo9CsZJ0n6WhwCX53b2iaHS-p5twOl2mLa0R2w9SPO7wJNtBd_O9wnQtxdjsvDTBj-FskqaMAvSx72pW3PM7albuq0F0YC7K5l7XzAR98dmlL2sZhRH1SyoSj28J__yeGEF6fI6alujNYstALupSpmN5Ze2PAOi80z5I2H2vYTv7tV4b_2wXN5E5_vhNOqKhH2aqnSiXoWztsUOpzCAmFap60=w1280" alt="Pashan Lake field survey">
+      <div class="carousel" data-carousel>
+        <img src="Pashan_2016.jpeg" alt="Pashan Lake, 2016" class="slide active">
+        <img src="Pashan_2021.jpeg" alt="Pashan Lake, 2021 — water hyacinth spread" class="slide">
+        <img src="Pashan_2025.jpeg" alt="Pashan Lake, 2025" class="slide">
+        <img src="GPSessential_pashan.jpg" alt="GPS Essentials field tracking, Pashan Lake" class="slide">
+        <img src="Epicollect_pashan.jpg" alt="Epicollect5 data entry, Pashan Lake" class="slide">
+        <button class="car-btn prev" aria-label="Previous image">&#8249;</button>
+        <button class="car-btn next" aria-label="Next image">&#8250;</button>
+        <div class="car-dots"></div>
+      </div>
       <div>
         <h4>Pashan Lake</h4>
         <p>The Pashan Lake survey was key to understanding the integration of field data with GIS and remote sensing for environmental monitoring. I learned firsthand how to spatially analyze the impact of invasive species, such as water hyacinth, on lake biodiversity. The project sharpened my skills in data interpretation and temporal mapping, confirming that geospatial monitoring is vital for informing sustainable management and conservation strategies for vulnerable water ecosystems. </p>
       </div>
     </div>
     <div class="field-panel" id="field-mayureshwar">
-      <img src="https://lh3.googleusercontent.com/sitesv/AG8ngQWrzxxYE5Mdy8SCMwX7oTIVHlZPeU21wYx52plxNkrx9rMpRvNcInnSNcaP-fNa5so2fXAekNtAos2bhiy6GuwPekwOcH3-31wFcduIquPkXRSU8ZjJRO3XsBryFrtQOEzmcT_CSZTPbtjX2FV1PczNP6Xw1Q0xRXqYwIv0jz6kfu5oGE_-wP9-hDyfEKXOM4dCWq2RZxertujwLWzMZJisQd8UiZdj0BS3Mt5q=w1280" alt="Mayureshwar Supe vegetation sampling">
+        <div class="carousel" data-carousel>
+        <img src="Supe_NDVI.jpg" alt="NDVI values, Mayureshwar Supe" class="slide active">
+        <img src="Belt_grid2_supe.jpg" alt="Belt transect sampling, Grid 2, Supe" class="slide">
+        <img src="Line_grid2_supe.jpg" alt="Line transect sampling, Grid 2, Supe" class="slide">
+        <img src="Belt_grid17_supe.jpg" alt="Belt transect sampling, Grid 17, Supe" class="slide">
+        <img src="Line_grid17_supe.jpg" alt="Line transect sampling, Grid 17, Supe" class="slide">
+        <button class="car-btn prev" aria-label="Previous image">&#8249;</button>
+        <button class="car-btn next" aria-label="Next image">&#8250;</button>
+        <div class="car-dots"></div>
+      </div>
       <div>
         <h4>Mayureshwar Supe</h4>
         <p>In Mayureshwar Supe, which was a dry scrubland, I achieved hands-on expertise in vegetation sampling using line and belt transects, mastering the calculation of species density and abundance. A key outcome was understanding and performing ground truthing—relating field data directly to NDVI values from remote sensing—to ensure accurate vegetation analysis. The exercise significantly improved my skills in data collection, spatial interpretation, and integrating field ecology with satellite observations for effective ecological monitoring.</p>
       </div>
     </div>
     <div class="field-panel" id="field-mulshi">
-      <img src="https://lh3.googleusercontent.com/sitesv/AG8ngQWfnIIZ_G6qwiW1WVk1zTVcHGCQzq8FxHq2NaATP4piltYnhavDiPtkDp9F-8D8Xigg_JFzuFyCfP12_nJwJ4Pmvd6HntS9L_TqaZ86iTAyyMvavpIzoEocVDCAb9RP9BHEJiCgOE8maiQRrCETq5BKWvLWW4AtCwMUxilj75QUDummEv9UHKzanVHNFgMyDR7qXG7IjTReNNP4tnuRPEO0k3Z-V--B8kJcbj43=w1280" alt="Mulshi ecological field survey">
-      <div>
+       <div class="carousel" data-carousel>
+        <img src="Mulshi.jpg" alt="Mulshi field site" class="slide active">
+        <img src="NDVI_Mulshi.jpg" alt="NDVI map, Mulshi" class="slide">
+        <img src="Transect_mulshi.jpg" alt="Transect sites, Mulshi" class="slide">
+        <img src="Mulshi_densometer.jpg" alt="Canopy density measurement, Mulshi" class="slide">
+        <img src="Mulshi_ecosystemservices.jpg" alt="Ecosystem services mapping, Mulshi" class="slide">
+        <button class="car-btn prev" aria-label="Previous image">&#8249;</button>
+        <button class="car-btn next" aria-label="Next image">&#8250;</button>
+        <div class="car-dots"></div>
+      </div>
         <h4>Mulshi</h4>
         <p>The field visit to Mulshi was a comprehensive exercise in ecological data collection and analysis. The practical work involved establishing line transects to survey vegetation, and using a densometer to quantify canopy cover. Furthermore, I utilised modern mobile technology, including GPS Essentials for accurate geospatial recording of locations and the Epicollect forms platform for standardised digital data entry. The combination of these techniques allowed for robust ecological sampling, which was supplemented by the crucial task of collecting data on ecosystem services provided by the Mulshi environment, thus connecting the biological observations to their broader socio-economic and environmental value. </p>
       </div>
@@ -482,6 +517,27 @@
       </a>
     </div>
   </div>
+  document.querySelectorAll('[data-carousel]').forEach(car=>{
+    const slides = car.querySelectorAll('.slide');
+    const dotsWrap = car.querySelector('.car-dots');
+    let idx = 0;
+    slides.forEach((_,i)=>{
+      const d = document.createElement('span');
+      if(i===0) d.classList.add('active');
+      d.addEventListener('click', ()=>show(i));
+      dotsWrap.appendChild(d);
+    });
+    const dots = dotsWrap.querySelectorAll('span');
+    function show(i){
+      slides[idx].classList.remove('active');
+      dots[idx].classList.remove('active');
+      idx = (i + slides.length) % slides.length;
+      slides[idx].classList.add('active');
+      dots[idx].classList.add('active');
+    }
+    car.querySelector('.prev').addEventListener('click', ()=>show(idx-1));
+    car.querySelector('.next').addEventListener('click', ()=>show(idx+1));
+  });
 </section>
 
 <footer>
