@@ -517,27 +517,7 @@
       </a>
     </div>
   </div>
-  document.querySelectorAll('[data-carousel]').forEach(car=>{
-    const slides = car.querySelectorAll('.slide');
-    const dotsWrap = car.querySelector('.car-dots');
-    let idx = 0;
-    slides.forEach((_,i)=>{
-      const d = document.createElement('span');
-      if(i===0) d.classList.add('active');
-      d.addEventListener('click', ()=>show(i));
-      dotsWrap.appendChild(d);
-    });
-    const dots = dotsWrap.querySelectorAll('span');
-    function show(i){
-      slides[idx].classList.remove('active');
-      dots[idx].classList.remove('active');
-      idx = (i + slides.length) % slides.length;
-      slides[idx].classList.add('active');
-      dots[idx].classList.add('active');
-    }
-    car.querySelector('.prev').addEventListener('click', ()=>show(idx-1));
-    car.querySelector('.next').addEventListener('click', ()=>show(idx+1));
-  });
+  
 </section>
 
 <footer>
@@ -566,6 +546,27 @@
   });
   document.querySelectorAll('#navLinks a').forEach(a=>{
     a.addEventListener('click', ()=>document.getElementById('navLinks').classList.remove('open'));
+  });
+  document.querySelectorAll('[data-carousel]').forEach(car=>{
+    const slides = car.querySelectorAll('.slide');
+    const dotsWrap = car.querySelector('.car-dots');
+    let idx = 0;
+    slides.forEach((_,i)=>{
+      const d = document.createElement('span');
+      if(i===0) d.classList.add('active');
+      d.addEventListener('click', ()=>show(i));
+      dotsWrap.appendChild(d);
+    });
+    const dots = dotsWrap.querySelectorAll('span');
+    function show(i){
+      slides[idx].classList.remove('active');
+      dots[idx].classList.remove('active');
+      idx = (i + slides.length) % slides.length;
+      slides[idx].classList.add('active');
+      dots[idx].classList.add('active');
+    }
+    car.querySelector('.prev').addEventListener('click', ()=>show(idx-1));
+    car.querySelector('.next').addEventListener('click', ()=>show(idx+1));
   });
 
   document.querySelectorAll('.tabbar .tabbtn').forEach(btn=>{
